@@ -138,13 +138,19 @@ public:
     void SetHero(size_t x, size_t y) { _heroCoord = make_pair(x, y); }
 
 private:
-    static const int _fovRadius = 20;
+    static const int _fovRadius = 5;
 
     Room _room;
     TCODMap *_tmap;
     pair< size_t, size_t > _heroCoord;
 };
 
+const int RightUpCorner = 0XBB;
+const int LeftUpCorner = 0XC9;
+const int RightDownCorner = 0XBC;
+const int LeftDownCorner = 0XC8;
+const int HorizontalLine = 0XCD;
+const int VerticalLine = 0XBA;
 
 int main() {
 
@@ -165,7 +171,9 @@ int main() {
     TCODColor BorderCollor(200,160,30);
 
     int playerx=1, playery=1;
-    TCODConsole::initRoot(roomXSize + 2, roomYSize + 2, "Bomberman", false);
+    TCODConsole::initRoot(roomXSize + 2, roomYSize + 2 + 10, "Bomberman", false);
+
+    TCODConsole *off1 = new TCODConsole(roomXSize + 2, 10);
 
      while (!TCODConsole::isWindowClosed()) {
         TCODConsole::root->setDefaultBackground(Wall);
@@ -238,9 +246,35 @@ int main() {
 
 
         TCODConsole::root->setDefaultForeground(TCODColor::green);
-        TCODConsole::root->putChar(playerx, playery,'@');
+        TCODConsole::root->putChar(playerx, playery, '@');
+
+
+        //Drawing info
+        off1->putChar(0, 0, LeftUpCorner);
+        off1->putChar(roomXSize+1, 0, RightUpCorner);
+        off1->putChar(0, 9, LeftDownCorner);
+        off1->putChar(roomXSize+1, 9, RightDownCorner);
+
+        for(int i = 1; i < roomXSize+1; i++) {
+            off1->putChar(i, 0, HorizontalLine);
+            off1->putChar(i, 9, HorizontalLine);
+        }
+
+        for(int i = 1; i < 9; i++) {
+            off1->putChar(0, i, VerticalLine);
+            off1->putChar(roomXSize+1, i, VerticalLine);
+        }
+
+        off1->print(3, 2, "HP     : [%c%c%c%c++++++++++++++++++++%c]", TCOD_COLCTRL_FORE_RGB, 255, 1, 1, TCOD_COLCTRL_STOP);
+        off1->print(3, 3, "Timer  : 1 2 3 4 5 6 7 8 9");
+        off1->print(3, 4, "Power  : 1 2 3 4 5 6 7 8 9");
+        off1->print(3, 5, "Direct : Up Right Down Left Center");
+        off1->print(3, 7, "Build  : A B C D E F G H I J");
+
+        TCODConsole::blit(off1,0,0,roomXSize + 2,10, TCODConsole::root, 0, roomYSize + 2);
 
         TCODConsole::root->flush();
+
     }
 
     return 0;
