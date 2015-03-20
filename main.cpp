@@ -75,7 +75,7 @@ public:
         _xSize(xSize), _ySize(ySize) { }
 
     Room generate() {
-        const int step = 7;
+        const int step = 2;
 
         Room newRoom(_xSize, _ySize);
 
@@ -138,7 +138,7 @@ public:
     void SetHero(size_t x, size_t y) { _heroCoord = make_pair(x, y); }
 
 private:
-    static const int _fovRadius = 5;
+    static const int _fovRadius = 4;
 
     Room _room;
     TCODMap *_tmap;
@@ -241,6 +241,7 @@ int main() {
             case TCODK_LEFT  : playerx!=1         && r.isWallked(playerx-2, playery-1) ? playerx-- : 0;break;
             case TCODK_RIGHT : playerx!=roomXSize && r.isWallked(playerx,   playery-1) ? playerx++ : 0;break;
             case TCODK_SPACE : r.setBomb(playerx-1, playery-1); break;
+            case TCODK_CHAR : // Boom!
             default:break;
         }
 
@@ -266,9 +267,9 @@ int main() {
         }
 
         off1->print(3, 2, "HP     : [%c%c%c%c++++++++++++++++++++%c]", TCOD_COLCTRL_FORE_RGB, 255, 1, 1, TCOD_COLCTRL_STOP);
-        off1->print(3, 3, "Timer  : 1 2 3 4 5 6 7 8 9");
-        off1->print(3, 4, "Power  : 1 2 3 4 5 6 7 8 9");
-        off1->print(3, 5, "Direct : Up Right Down Left Center");
+        off1->print(3, 4, "Timer  : 1 2 3 4 5 6 7 8 9");
+        off1->print(3, 5, "Power  : 1 2 3 4 5 6 7 8 9");
+        off1->print(3, 6, "Direct : [Up] [Right] [Down] [Left] [Center]");
         off1->print(3, 7, "Build  : A B C D E F G H I J");
 
         TCODConsole::blit(off1,0,0,roomXSize + 2,10, TCODConsole::root, 0, roomYSize + 2);
