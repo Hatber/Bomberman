@@ -152,12 +152,35 @@ const int LeftDownCorner = 0XC8;
 const int HorizontalLine = 0XCD;
 const int VerticalLine = 0XBA;
 
-int main() {
+#include "Bomberman.hpp"
+#include <cstdlib>
 
+int main() {
+/*
+    const TCODColor activeBorderColor(200,160,30);
+    int startX = 0;
+    int endX = 3;
+    int startY = 0;
+    int endY = 3;
+*/
+
+    Bomberman game;
+
+    while (!TCODConsole::isWindowClosed()) {
+
+        TCODConsole::waitForKeypress(true);
+
+        //TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, NULL, NULL);
+
+        //gui.DrawPassiveBorder(rand()%50, rand()%50 + 50, rand()%50, rand()%50 + 50);
+
+        //gui.DrawActiveBorder(0,3,0,3);
+    }
+    /*
     int roomXSize = 50,
         roomYSize = 25;
 
-    StandartRoomGenerator rg(roomXSize, roomYSize);
+    RoomGenerator rg(roomXSize, roomYSize);
     Room r(rg.generate());
 
     Map gameMap(roomXSize, roomYSize, r);
@@ -269,7 +292,7 @@ int main() {
         off1->print(3, 2, "HP     : [%c%c%c%c++++++++++++++++++++%c]", TCOD_COLCTRL_FORE_RGB, 255, 1, 1, TCOD_COLCTRL_STOP);
         off1->print(3, 4, "Timer  : 1 2 3 4 5 6 7 8 9");
         off1->print(3, 5, "Power  : 1 2 3 4 5 6 7 8 9");
-        off1->print(3, 6, "Direct : [Up] [Right] [Down] [Left] [Center]");
+        off1->print(3, 6, "Direct : Up Right Down Left Center");
         off1->print(3, 7, "Build  : A B C D E F G H I J");
 
         TCODConsole::blit(off1,0,0,roomXSize + 2,10, TCODConsole::root, 0, roomYSize + 2);
@@ -277,6 +300,7 @@ int main() {
         TCODConsole::root->flush();
 
     }
+    */
 
     return 0;
 }
