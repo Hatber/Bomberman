@@ -2,9 +2,9 @@
 #define __MIXIN_HIT_POINTS__
 
 template < typename T >
-class HitPoints {
+class MHitPoints {
 public:
-    HitPoints(T max, T current = 0) : _max(max), _current(current) { }
+    MHitPoints(T max, T current = 0) : _max(max), _current(current) { }
 
     void SetMaxHP(T current) { _current = current; }
     void SetCurrentHP(T max) { _max = max; }

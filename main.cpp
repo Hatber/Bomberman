@@ -5,6 +5,8 @@
 
 using namespace std;
 
+/*
+
 enum cellT {FREE, WALL, BOMB};
 
 struct CellData {
@@ -91,7 +93,7 @@ public:
 private:
     size_t _xSize, _ySize;
 };
-
+*/
 
 /*class Map {
 public:

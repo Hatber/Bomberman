@@ -6,8 +6,10 @@
 class TCODMapWrapper : public TCODMap
 {
 public:
-    TCODMapWrapper(std::size_t xSize, std::size_t ySize) : TCODMap(xSize, ySize) { }
+    TCODMapWrapper(int xSize, int ySize) : TCODMap(xSize, ySize) { }
 
+    void SetTransparent(int x, int y, bool isTransparent = true);
+    void SetWalkable(int x, int y, bool isWalkable = true);
 private:
 
 };

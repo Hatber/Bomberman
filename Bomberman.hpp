@@ -29,6 +29,8 @@ private:
     GuiEngine  _gui;
     TCODMapWrapper _map;
 
+    void FillMapInfo();
+
     void HandleGameAction(TCOD_key_t key);
     void HandleStatisticAction(TCOD_key_t key);
     void HandleTipAction(TCOD_key_t key);
