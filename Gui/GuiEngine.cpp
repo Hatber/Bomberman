@@ -1,4 +1,5 @@
 #include "GuiEngine.hpp"
+#include "../Common.hpp"
 
 const int rightUpCorner   = 0XBB;
 const int leftUpCorner    = 0XC9;
@@ -11,9 +12,6 @@ const TCODColor activeBorderColor(200,160,30);
 
 const int HPPanelHeight = 1;
 const int BombConfigurationPanelHeight = 10;
-
-const int levelXSize = 50;
-const int levelYSize = 25;
 
 GuiEngine::GuiEngine() {
     TCODConsole::initRoot(50, 25+11, "Bomberman", false);
@@ -43,17 +41,9 @@ void GuiEngine::DrawGame() {
 }
 
 void GuiEngine::DrawLog() {
-    _logWindow->print(0, 0, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/1, 1, TCOD_COLCTRL_STOP);
-    _logWindow->print(0, 1, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/2, 1, TCOD_COLCTRL_STOP);
-    _logWindow->print(0, 2, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/3, 1, TCOD_COLCTRL_STOP);
-    _logWindow->print(0, 3, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/4, 1, TCOD_COLCTRL_STOP);
-    _logWindow->print(0, 4, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/5, 1, TCOD_COLCTRL_STOP);
-    _logWindow->print(0, 5, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/6, 1, TCOD_COLCTRL_STOP);
-    _logWindow->print(0, 6, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/7, 1, TCOD_COLCTRL_STOP);
-    _logWindow->print(0, 7, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/8, 1, TCOD_COLCTRL_STOP);
-    _logWindow->print(0, 8, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/9, 1, TCOD_COLCTRL_STOP);
-    _logWindow->print(0, 9, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/10, 1, TCOD_COLCTRL_STOP);
-
+    for(int i = 0; i < 10; i++) {
+        _logWindow->print(0, i, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/(i+1), 1, TCOD_COLCTRL_STOP);
+    }
 
     TCODConsole::blit(_logWindow, 0, 0, levelXSize, BombConfigurationPanelHeight, TCODConsole::root, 1, levelYSize + 1);
     TCODConsole::root->flush();

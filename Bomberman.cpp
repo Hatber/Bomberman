@@ -1,9 +1,17 @@
 #include "Bomberman.hpp"
+#include "Common.hpp"
 
 Bomberman::Bomberman() :
-    _currentState(GAME)
+    _currentState(GAME),
+    _map(levelXSize, levelYSize)
 {
     _gui.Init();
+}
+
+void Bomberman::Start() {
+    while (!TCODConsole::isWindowClosed()) {
+        WaitUserInput();
+    }
 }
 
 void Bomberman::WaitUserInput() {
@@ -16,6 +24,10 @@ void Bomberman::WaitUserInput() {
         case TIP       : HandleTipAction(key); break;
         case EXIT      : HandleExitAction(key); break;
     }
+}
+
+void Bomberman::Step() {
+
 }
 
 void Bomberman::HandleGameAction(TCOD_key_t key) {

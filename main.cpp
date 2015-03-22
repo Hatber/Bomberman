@@ -92,7 +92,8 @@ private:
     size_t _xSize, _ySize;
 };
 
-class Map {
+
+/*class Map {
 public:
     Map(size_t xSize, size_t ySize, const Room& room) :
         _room(room),
@@ -114,7 +115,7 @@ public:
                     isWalkable = false;
                 }
 
-                _tmap->setProperties(j, i, isTransparent, isWalkable);
+                _tmap->setProperties(j, i, isTransparent, true);
             }
         }
 
@@ -143,17 +144,20 @@ private:
     Room _room;
     TCODMap *_tmap;
     pair< size_t, size_t > _heroCoord;
-};
+};*/
 
-const int RightUpCorner = 0XBB;
-const int LeftUpCorner = 0XC9;
-const int RightDownCorner = 0XBC;
-const int LeftDownCorner = 0XC8;
-const int HorizontalLine = 0XCD;
-const int VerticalLine = 0XBA;
 
 #include "Bomberman.hpp"
 #include <cstdlib>
+
+/*
+const int RightUpCorner   = 0XBB;
+const int LeftUpCorner    = 0XC9;
+const int RightDownCorner = 0XBC;
+const int LeftDownCorner  = 0XC8;
+const int HorizontalLine  = 0XCD;
+const int VerticalLine    = 0XBA;
+*/
 
 int main() {
 /*
@@ -165,18 +169,9 @@ int main() {
 */
 
     Bomberman game;
+    game.Start();
 
-    while (!TCODConsole::isWindowClosed()) {
-
-        TCODConsole::waitForKeypress(true);
-
-        //TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, NULL, NULL);
-
-        //gui.DrawPassiveBorder(rand()%50, rand()%50 + 50, rand()%50, rand()%50 + 50);
-
-        //gui.DrawActiveBorder(0,3,0,3);
-    }
-    /*
+/*
     int roomXSize = 50,
         roomYSize = 25;
 
@@ -300,7 +295,7 @@ int main() {
         TCODConsole::root->flush();
 
     }
-    */
 
+*/
     return 0;
 }

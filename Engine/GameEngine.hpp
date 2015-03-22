@@ -7,6 +7,7 @@ public:
     bool PlaceBomb();
     bool DoAction();
 private:
+
 };
 
 #endif // __GAME_ENGINE__
