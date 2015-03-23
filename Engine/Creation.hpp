@@ -15,6 +15,8 @@ public :
         MCoordinates(xPosition, yPosition)
     { }
     Creation(const MCoordinates& coord) : MHitPoints<float>(defaultMaxHP), MCoordinates(coord) { }
+
+    static bool Dead(Creation& c) { return c.isDead(); }
 };
 
 #endif // __CREATION__

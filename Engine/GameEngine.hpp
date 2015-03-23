@@ -1,6 +1,7 @@
 #ifndef __GAME_ENGINE__
 #define __GAME_ENGINE__
 
+#include "../Util/TCODMapWrapper.hpp"
 #include "Level/Level.hpp"
 #include "Creation.hpp"
 #include "Monster.hpp"
@@ -21,11 +22,31 @@ public:
     bool DoAction();
 
     Level& GetLevel() { return _level; }
+
+    MHitPoints< float > GetHeroHP() { return _hero; }
     MCoordinates GetHeroPosition() { return _hero; }
 
     void UpdateLevel();
+    void Step(TCODMapWrapper& pathMap);
+    void PutToDeath();
+
+    std::set< int > _findedTimers;
+    std::set< int > _findedPowers;
+    std::set< DirectionT > _findedDirections;
+
+    Bomb _currentBombBuild;
+
+    std::set< MCoordinates > explosionCover;
+
 private:
+    int _difficulty;
     void Generate();
+
+
+    void ExplosionTransmission(MCoordinates current, DirectionT diretion, int power);
+
+    bool IsDestructible(int x, int y);
+    bool IsLevelBorder(int x, int y);
 
     Level _level;
     Creation _hero;
@@ -35,11 +56,7 @@ private:
     std::vector< IBonus* > _bonuses;
     MCoordinates _exit;
 
-    Bomb _currentBombBuild;
-
-    std::set< int > _findedTimers;
-    std::set< int > _findedPowers;
-    std::set< DirectionT > _findedDirections;
+    int _score;
 };
 
 #endif // __GAME_ENGINE__

@@ -11,6 +11,7 @@ public:
     Bomb(float power, int timer) : _power(power), _timer(timer) { }
 
     void Tic() { _timer--; }
+    void Reset() { _timer = 0; }
     bool ReadyToExplosion() { return _timer == 0; }
 
     void AddDirection(DirectionT direction) { _directions.insert(direction); }
@@ -31,7 +32,7 @@ private:
 class BombFactory {
 public:
     static Bomb MakeDefaultBomb() {
-        Bomb defaultBomb(3, 3);
+        Bomb defaultBomb(4, 3);
         defaultBomb.AddDirection(UP);
         defaultBomb.AddDirection(RIGHT);
         defaultBomb.AddDirection(LEFT);

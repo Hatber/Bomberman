@@ -10,7 +10,7 @@ void Level::Clear() {
 
 bool Level::IsWalkable(int x, int y) {
     cellT type = GetType(x, y);
-    if( type == FREE || type == BONUS || type == EXIT ) {
+    if( type == FREE || type == BONUS || type == EXIT || type == HERO ) {
         return true;
     }
 
@@ -19,7 +19,7 @@ bool Level::IsWalkable(int x, int y) {
 
 bool Level::IsTransparent(int x, int y) {
     cellT type = GetType(x, y);
-    if( type == WALL || type == HERO || type == MONSTER ) {
+    if( type == WALL || type == HERO || type == MONSTER_N  || type == MONSTER_F || type == MONSTER_S) {
         return false;
     }
 

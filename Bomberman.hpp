@@ -19,7 +19,7 @@ public:
     Bomberman();
 
     void Start();
-    void WaitUserInput();
+    bool WaitUserInput();
     void Step();
 
 private:
@@ -33,10 +33,10 @@ private:
 
     void FillMapInfo();
 
-    void HandleGameAction(TCOD_key_t key);
-    void HandleStatisticAction(TCOD_key_t key);
-    void HandleTipAction(TCOD_key_t key);
-    void HandleExitAction(TCOD_key_t key);
+    bool HandleGameAction(TCOD_key_t key);
+    bool HandleStatisticAction(TCOD_key_t key);
+    bool HandleTipAction(TCOD_key_t key);
+    bool HandleExitAction(TCOD_key_t key);
 };
 
 #endif // __BOMBERMAN__

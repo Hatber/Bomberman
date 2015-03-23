@@ -14,28 +14,51 @@ Bomberman::Bomberman() :
 
 void Bomberman::Start() {
     while (!TCODConsole::isWindowClosed()) {
-        WaitUserInput();
-
         _engine.UpdateLevel();
+
         UpdateTCODMap();
+
+        _gui.DrawInfo(_engine.GetHeroHP(), 0);
         _gui.DrawGame(_engine.GetLevel(), _map);
+        //_gui.DrawStatPanel();
+
+        if(!WaitUserInput()) { continue; }
+
+        _engine.Step(_map);
+
+        _gui.DrawGame(_engine.GetLevel(), _map);
+        _gui.DrawExplosion(_engine.explosionCover);
+        if(!_engine.explosionCover.empty()) { TCODSystem::sleepMilli(100); }
+
+        if(_engine.GetHeroHP().isDead()) {
+            _gui.DrawEndWindow();
+            TCOD_key_t key;
+            do {
+                key = TCODConsole::waitForKeypress(true);
+            } while (key.vk != TCODK_ESCAPE);
+            return;
+        }
+
+        _engine.PutToDeath();
     }
 }
 
-void Bomberman::WaitUserInput() {
+bool Bomberman::WaitUserInput() {
     TCOD_key_t key;
     key = TCODConsole::waitForKeypress(true);
 
     switch(_currentState) {
-        case GAME       : HandleGameAction(key); break;
+        case GAME       : return HandleGameAction(key); break;
         case STATISTIC  : break;
         case TIP        : HandleTipAction(key); break;
         case EXIT_STATE : HandleExitAction(key); break;
     }
+
+    return false;
 }
 
 void Bomberman::Step() {
-
+    _engine.Step(_map);
 }
 
 void Bomberman::UpdateTCODMap() {
@@ -58,7 +81,7 @@ void Bomberman::UpdateTCODMap() {
     }
 }
 
-void Bomberman::HandleGameAction(TCOD_key_t key) {
+bool Bomberman::HandleGameAction(TCOD_key_t key) {
     bool isComlete = false;
 
     if(key.vk == TCODK_UP)          { isComlete = _engine.MoveHero(0, -1); }
@@ -67,14 +90,18 @@ void Bomberman::HandleGameAction(TCOD_key_t key) {
     else if(key.vk == TCODK_LEFT)   { isComlete = _engine.MoveHero(-1, 0); }
     else if(key.c == 'w')           { isComlete = _engine.MoveHero(0, 0); }
     else if(key.vk == TCODK_SPACE)  { isComlete = _engine.PlaceBomb(); }
-    else if(key.c == 'a')           { isComlete = _engine.DoAction(); }
-    else if(key.vk == TCODK_ESCAPE) {}
-    else if(key.vk == TCODK_TAB)    {}
+    //else if(key.c == 'a')           { isComlete = _engine.DoAction(); }
+    //else if(key.vk == TCODK_ESCAPE) {}
+    //else if(key.vk == TCODK_TAB)    {}
+
+    return isComlete;
 }
 
-void Bomberman::HandleStatisticAction(TCOD_key_t key) {
+bool Bomberman::HandleStatisticAction(TCOD_key_t key) {
     bool isNeedTime = false;
+
+    return isNeedTime;
 }
 
-void Bomberman::HandleTipAction(TCOD_key_t key) { }
-void Bomberman::HandleExitAction(TCOD_key_t key) { }
+bool Bomberman::HandleTipAction(TCOD_key_t key) { return true; }
+bool Bomberman::HandleExitAction(TCOD_key_t key) { return true; }

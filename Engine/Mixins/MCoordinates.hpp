@@ -35,8 +35,8 @@ public:
         return this->first < rhs.first && this->second < rhs.second;
     }
 
-    bool operator > (const MCoordinates& rhs) {
-        return rhs < *this;
+    bool operator >= (const MCoordinates& rhs) {
+        return this->first >= rhs.first && this->second >= rhs.second;
     }
 
 private:

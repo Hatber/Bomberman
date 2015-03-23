@@ -5,7 +5,7 @@
 
 #include <vector>
 
-enum cellT {FREE, BONUS, EXIT, BOMB, WALL, HERO, MONSTER};
+enum cellT {FREE, BONUS, EXIT, BOMB, WALL, HERO, MONSTER_N, MONSTER_F, MONSTER_S};
 
 class Level  {
 public:
@@ -26,12 +26,15 @@ public:
     bool IsTransparent(int x, int y);
 
 
-    void SetBonus(const MCoordinates& coord)   { SetType(coord, BONUS); }
-    void SetExit(const MCoordinates& coord)    { SetType(coord, EXIT); }
-    void SetBomb(const MCoordinates& coord)    { SetType(coord, BOMB); }
-    void SetWall(const MCoordinates& coord)    { SetType(coord, WALL); }
-    void SetHero(const MCoordinates& coord)    { SetType(coord, HERO); }
-    void SetMonster(const MCoordinates& coord) { SetType(coord, MONSTER); }
+    void SetBonus(const MCoordinates& coord) { SetType(coord, BONUS); }
+    void SetExit(const MCoordinates& coord)  { SetType(coord, EXIT); }
+    void SetBomb(const MCoordinates& coord)  { SetType(coord, BOMB); }
+    void SetWall(const MCoordinates& coord)  { SetType(coord, WALL); }
+    void SetHero(const MCoordinates& coord)  { SetType(coord, HERO); }
+
+    void SetMonsterNormal(const MCoordinates& coord) { SetType(coord, MONSTER_N); }
+    void SetMonsterSlow(const MCoordinates& coord)   { SetType(coord, MONSTER_S); }
+    void SetMonsterFast(const MCoordinates& coord)   { SetType(coord, MONSTER_F); }
 
 private:
     void SetType(const MCoordinates& coord, cellT type) { GetType(coord.first, coord.second) = type; }

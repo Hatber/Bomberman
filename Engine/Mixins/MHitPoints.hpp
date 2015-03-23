@@ -4,7 +4,13 @@
 template < typename T >
 class MHitPoints {
 public:
+    MHitPoints(const MHitPoints& hp) : _max(hp._max), _current(hp._current) { }
     MHitPoints(T max, T current = 0) : _max(max), _current(current) { }
+
+    int GetAsPercent() const { return (_current/_max)*100.0; }
+
+    T GetCurrentHP() { return _current; }
+    T GetMaxHP() { return _max; }
 
     void SetMaxHP(T current) { _current = current; }
     void SetCurrentHP(T max) { _max = max; }
