@@ -10,17 +10,18 @@ enum MonsterT { NORMAL, FAST, SLOW };
 
 class Monster : public Creation {
 public:
-    Monster(float atackPower = defaultAtackPower, int atackRange = defaultAtackRange, MonsterT type = NORMAL)
-        : _atackPower(atackPower), _atackRange(atackRange), _type(type) { }
+    Monster(MonsterT type = NORMAL, float atackPower = defaultAtackPower, int atackRange = defaultAtackRange)
+        : _type(type), _atackPower(atackPower), _atackRange(atackRange) { }
+    Monster(const MCoordinates& coord) : Creation(coord),
+        _type(NORMAL), _atackPower(defaultAtackPower), _atackRange(defaultAtackRange) { }
 
     float getAtackPower() { return _atackPower; }
     float getAtackRange() { return _atackRange; }
 
 private:
+    MonsterT _type;
     float _atackPower;
     int _atackRange;
-
-    MonsterT _type;
 };
 
 #endif // __MONSTER__

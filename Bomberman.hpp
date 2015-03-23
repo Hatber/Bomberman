@@ -23,6 +23,8 @@ public:
     void Step();
 
 private:
+    void UpdateTCODMap();
+
     GameState _currentState;
 
     GameEngine _engine;

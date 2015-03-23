@@ -17,13 +17,13 @@ public:
     cellT& GetType(int x, int y) { return _room.at(y).at(x)._type; }
 
     void AddToExplored(int x, int y) { _room.at(y).at(x)._isExplored = true; }
-    bool& IsExplored(int x, int y)   { return _room.at(y).at(x)._isExplored; }
+    bool IsExplored(int x, int y)   { return _room.at(y).at(x)._isExplored; }
 
     int GetXSize() { return _room.at(0).size(); }
     int GetYSize() { return _room.size(); }
 
     bool IsWalkable(int x, int y);
-    bool Transparent(int x, int y);
+    bool IsTransparent(int x, int y);
 
 
     void SetBonus(const MCoordinates& coord)   { SetType(coord, BONUS); }

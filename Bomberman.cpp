@@ -6,11 +6,19 @@ Bomberman::Bomberman() :
     _map(levelXSize, levelYSize)
 {
     _gui.Init();
+
+    _engine.UpdateLevel();
+    UpdateTCODMap();
+    _gui.DrawGame(_engine.GetLevel(), _map);
 }
 
 void Bomberman::Start() {
     while (!TCODConsole::isWindowClosed()) {
         WaitUserInput();
+
+        _engine.UpdateLevel();
+        UpdateTCODMap();
+        _gui.DrawGame(_engine.GetLevel(), _map);
     }
 }
 
@@ -28,6 +36,26 @@ void Bomberman::WaitUserInput() {
 
 void Bomberman::Step() {
 
+}
+
+void Bomberman::UpdateTCODMap() {
+    Level& currentLevel = _engine.GetLevel();
+    for(int y = 0; y < currentLevel.GetYSize(); y++) {
+        for(int x = 0; x < currentLevel.GetXSize(); x++) {
+            _map.setProperties(x, y, currentLevel.IsTransparent(x, y), currentLevel.IsWalkable(x, y));
+        }
+    }
+
+    MCoordinates heroPosition = _engine.GetHeroPosition();
+    _map.computeFov(heroPosition.first, heroPosition.second, 5);
+
+    for(int y = 0; y < currentLevel.GetYSize(); y++) {
+        for(int x = 0; x < currentLevel.GetXSize(); x++) {
+            if(_map.isInFov(x, y)) {
+                currentLevel.AddToExplored(x, y);
+            }
+        }
+    }
 }
 
 void Bomberman::HandleGameAction(TCOD_key_t key) {

@@ -10,11 +10,17 @@ const int verticalLine    = 0XBA;
 
 const TCODColor activeBorderColor(200,160,30);
 
+const TCODColor darkGroundColor(50,50,150);
+const TCODColor darkWallColor(0,0,100);
+
+const TCODColor groundColor(130,110,50);
+const TCODColor wallColor(200,180,50);
+
 const int HPPanelHeight = 1;
 const int BombConfigurationPanelHeight = 10;
 
 GuiEngine::GuiEngine() {
-    TCODConsole::initRoot(50, 25+11, "Bomberman", false);
+    TCODConsole::initRoot(50 + 2, 25+11+4, "Bomberman", false);
 }
 
 void GuiEngine::Init(int levelXSize, int levelYSize) {
@@ -26,8 +32,8 @@ void GuiEngine::Init(int levelXSize, int levelYSize) {
 
     DrawLog();
     DrawInfo();
-    DrawActiveBorder(0, levelXSize, HPPanelHeight, levelYSize);
-    DrawPassiveBorder(0, levelXSize, levelYSize, levelYSize + BombConfigurationPanelHeight + HPPanelHeight);
+    DrawActiveBorder(0, levelXSize + 2, HPPanelHeight, levelYSize+3);
+    DrawPassiveBorder(0, levelXSize + 2, levelYSize+3, levelYSize + BombConfigurationPanelHeight + HPPanelHeight+4);
 }
 
 void GuiEngine::DrawInfo() {
@@ -36,8 +42,38 @@ void GuiEngine::DrawInfo() {
     TCODConsole::root->flush();
 }
 
-void GuiEngine::DrawGame() {
+void GuiEngine::DrawGame(Level& level, TCODMapWrapper& fovMap) {
+    for(int y = 0; y < level.GetYSize(); y++) {
+        char roomPresent;
 
+        for(int x = 0; x < level.GetXSize(); x++) {
+            switch(level.GetType(x, y)) {
+                case FREE    : roomPresent = ' '; break;
+                case WALL    : roomPresent = '#'; break;
+                case HERO    : roomPresent = '@'; break;
+                case BOMB    : roomPresent = 'O'; break;
+                case BONUS   : roomPresent = '$'; break;
+                case EXIT    : roomPresent = '>'; break;
+                case MONSTER : roomPresent = 'M'; break;
+            }
+
+            if(fovMap.isInFov(x, y)) {
+                _gameWindow->setDefaultBackground(groundColor);
+                _gameWindow->setDefaultForeground(wallColor);
+            } else if(level.IsExplored(x, y)) {
+                _gameWindow->setDefaultBackground(darkGroundColor);
+                _gameWindow->setDefaultForeground(darkWallColor);
+            } else {
+                _gameWindow->setDefaultForeground(TCODColor::black);
+                _gameWindow->setDefaultBackground(TCODColor::black);
+            }
+
+            _gameWindow->putChar(x,y,roomPresent, TCOD_BKGND_SET);
+        }
+    }
+
+    TCODConsole::blit(_gameWindow, 0, 0, levelXSize, levelYSize, TCODConsole::root, 1, 2);
+    TCODConsole::root->flush();
 }
 
 void GuiEngine::DrawLog() {
@@ -45,7 +81,7 @@ void GuiEngine::DrawLog() {
         _logWindow->print(0, i, "%c%c%c This is test phrase to log panel!%c", TCOD_COLCTRL_FORE_RGB, 1, 255/(i+1), 1, TCOD_COLCTRL_STOP);
     }
 
-    TCODConsole::blit(_logWindow, 0, 0, levelXSize, BombConfigurationPanelHeight, TCODConsole::root, 1, levelYSize + 1);
+    TCODConsole::blit(_logWindow, 0, 0, levelXSize, BombConfigurationPanelHeight, TCODConsole::root, 1, levelYSize + 4);
     TCODConsole::root->flush();
 }
 

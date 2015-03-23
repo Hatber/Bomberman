@@ -19,8 +19,13 @@ public:
     bool MoveHero(int xOffset, int yOffset);
     bool PlaceBomb();
     bool DoAction();
-private:
+
+    Level& GetLevel() { return _level; }
+    MCoordinates GetHeroPosition() { return _hero; }
+
     void UpdateLevel();
+private:
+    void Generate();
 
     Level _level;
     Creation _hero;

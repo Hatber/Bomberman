@@ -14,6 +14,7 @@ public :
         MHitPoints(maxHP, currentHP),
         MCoordinates(xPosition, yPosition)
     { }
+    Creation(const MCoordinates& coord) : MHitPoints<float>(defaultMaxHP), MCoordinates(coord) { }
 };
 
 #endif // __CREATION__

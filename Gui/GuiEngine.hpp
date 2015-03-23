@@ -1,6 +1,9 @@
 #ifndef __GUI_ENGINE__
 #define __GUI_ENGINE__
 
+#include "../Engine/Level/Level.hpp"
+#include "../Util/TCODMapWrapper.hpp"
+
 #include "libtcod.hpp"
 
 #include <string>
@@ -10,6 +13,8 @@ public:
     GuiEngine();
     void Init(int levelXSize = 50, int levelYSize = 25);
 
+    void DrawGame(Level& level, TCODMapWrapper& fovMap);
+
 private:
     TCODConsole* _gameWindow;
     TCODConsole* _statWindow;
@@ -18,7 +23,6 @@ private:
     TCODConsole* _tipWindow;
 
     void DrawInfo();
-    void DrawGame();
     void DrawLog();
     void DrawStatPanel();
     void DrawTip(const std::string& text);

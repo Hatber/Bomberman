@@ -17,7 +17,7 @@ bool Level::IsWalkable(int x, int y) {
     return false;
 }
 
-bool Level::Transparent(int x, int y) {
+bool Level::IsTransparent(int x, int y) {
     cellT type = GetType(x, y);
     if( type == WALL || type == HERO || type == MONSTER ) {
         return false;

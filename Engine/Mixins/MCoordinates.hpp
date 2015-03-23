@@ -19,8 +19,8 @@ public:
     void AddCoordinate(int x, int y) { *this = *this + MCoordinates(std::make_pair(x, y)); }
 
     bool CompareCoordinate(const MCoordinates& coord) { return *this == coord; }
-    bool InBorders(const MCoordinates& x, const MCoordinates& y) {
-        return *this >= x && *this <= y;
+    bool InBorders(const MCoordinates& start, const MCoordinates& end) {
+        return *this >= start && *this < end;
     }
 
     MCoordinates operator - (const MCoordinates& coord) {
@@ -29,6 +29,14 @@ public:
 
     MCoordinates operator + (const MCoordinates& coord) {
         return std::make_pair(first + coord.first, second + coord.second);
+    }
+
+    bool operator < (const MCoordinates& rhs) {
+        return this->first < rhs.first && this->second < rhs.second;
+    }
+
+    bool operator > (const MCoordinates& rhs) {
+        return rhs < *this;
     }
 
 private:
