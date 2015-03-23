@@ -19,10 +19,10 @@ void Bomberman::WaitUserInput() {
     key = TCODConsole::waitForKeypress(true);
 
     switch(_currentState) {
-        case GAME      : HandleGameAction(key); break;
-        case STATISTIC : break;
-        case TIP       : HandleTipAction(key); break;
-        case EXIT      : HandleExitAction(key); break;
+        case GAME       : HandleGameAction(key); break;
+        case STATISTIC  : break;
+        case TIP        : HandleTipAction(key); break;
+        case EXIT_STATE : HandleExitAction(key); break;
     }
 }
 

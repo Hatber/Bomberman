@@ -11,7 +11,7 @@ enum GameState {
     GAME,
     STATISTIC,
     TIP,
-    EXIT
+    EXIT_STATE
 };
 
 class Bomberman {

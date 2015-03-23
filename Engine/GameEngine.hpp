@@ -8,6 +8,9 @@
 #include "Bonuses.hpp"
 
 #include <vector>
+#include <set>
+
+typedef Creation DestructibleObject;
 
 class GameEngine {
 public:
@@ -17,12 +20,21 @@ public:
     bool PlaceBomb();
     bool DoAction();
 private:
+    void UpdateLevel();
+
     Level _level;
     Creation _hero;
+    std::vector< DestructibleObject > _walls;
     std::vector< Monster > _monsters;
     std::vector< Bomb > _bombs;
     std::vector< IBonus* > _bonuses;
-    MCoordinates exit;
+    MCoordinates _exit;
+
+    Bomb _currentBombBuild;
+
+    std::set< int > _findedTimers;
+    std::set< int > _findedPowers;
+    std::set< DirectionT > _findedDirections;
 };
 
 #endif // __GAME_ENGINE__

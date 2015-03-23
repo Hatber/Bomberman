@@ -2,10 +2,11 @@
 #define __BOMB__
 
 #include "Bonuses.hpp"
+#include "Mixins/MCoordinates.hpp"
 
 #include <set>
 
-class Bomb {
+class Bomb : public MCoordinates {
 public:
     Bomb(float power, int timer) : _power(power), _timer(timer) { }
 
@@ -25,6 +26,20 @@ private:
     int _timer;
 
     std::set< DirectionT > _directions;
+};
+
+class BombFactory {
+public:
+    static Bomb MakeDefaultBomb() {
+        Bomb defaultBomb(3, 3);
+        defaultBomb.AddDirection(UP);
+        defaultBomb.AddDirection(RIGHT);
+        defaultBomb.AddDirection(LEFT);
+        defaultBomb.AddDirection(DOWN);
+        defaultBomb.AddDirection(CENTER);
+
+        return defaultBomb;
+    }
 };
 
 #endif // __BOMB__

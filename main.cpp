@@ -6,42 +6,6 @@
 using namespace std;
 
 /*
-
-enum cellT {FREE, WALL, BOMB};
-
-struct CellData {
-    CellData(
-        cellT type      = FREE,
-        bool isExplored = false
-    ) :
-        _type(type),
-        _isExplored(isExplored)
-    { }
-
-    cellT _type;
-    bool _isExplored;
-};
-
-class Room {
-public:
-    Room(size_t xSize, size_t ySize) :
-        _room(ySize, vector< CellData >(xSize, CellData()) ) {  }
-
-    cellT& GetType(size_t x, size_t y) { return _room.at(y).at(x)._type; }
-
-    void AddToExplored(size_t x, size_t y) { _room.at(y).at(x)._isExplored = true; }
-    bool& IsExplored(size_t x, size_t y)   { return _room.at(y).at(x)._isExplored; }
-
-    size_t getXSize() { return _room.at(0).size(); }
-    size_t getYSize() { return _room.size(); }
-
-    bool isWallked(int x, int y) { return GetType(x, y) != WALL; }
-    void setBomb(size_t x, size_t y) { GetType(x, y) = BOMB; }
-
-private:
-    vector< vector< CellData > > _room;
-};
-
 class RoomGenerator {
 public:
     RoomGenerator(size_t xSize, size_t ySize) :
@@ -152,24 +116,18 @@ private:
 #include "Bomberman.hpp"
 #include <cstdlib>
 
-/*
-const int RightUpCorner   = 0XBB;
-const int LeftUpCorner    = 0XC9;
-const int RightDownCorner = 0XBC;
-const int LeftDownCorner  = 0XC8;
-const int HorizontalLine  = 0XCD;
-const int VerticalLine    = 0XBA;
-*/
+#include "Engine/Bonuses.hpp"
+
+#include <algorithm>
+
+class A {
+public:
+    void func(MCoordinates* coord) {
+        cout << coord->first << " " << coord->second << endl;
+    }
+};
 
 int main() {
-/*
-    const TCODColor activeBorderColor(200,160,30);
-    int startX = 0;
-    int endX = 3;
-    int startY = 0;
-    int endY = 3;
-*/
-
     Bomberman game;
     game.Start();
 
