@@ -13,11 +13,13 @@ public:
         _room(ySize, std::vector< CellData >(xSize, CellData()) ) {  }
 
     void Clear();
+    void FullClear();
 
     cellT& GetType(int x, int y) { return _room.at(y).at(x)._type; }
 
     void AddToExplored(int x, int y) { _room.at(y).at(x)._isExplored = true; }
     bool IsExplored(int x, int y)   { return _room.at(y).at(x)._isExplored; }
+    void UnExplored(int x, int y)   { _room.at(y).at(x)._isExplored = false; }
 
     int GetXSize() { return _room.at(0).size(); }
     int GetYSize() { return _room.size(); }

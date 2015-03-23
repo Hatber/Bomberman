@@ -134,7 +134,7 @@ void GameEngine::Generate() {
     _walls.clear();
     _monsters.clear();
     _bonuses.clear();
-    _level.Clear();
+    _level.FullClear();
 
     _hero.SetCoordinate(0, 0);
 

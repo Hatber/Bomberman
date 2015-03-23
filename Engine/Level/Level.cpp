@@ -8,6 +8,15 @@ void Level::Clear() {
     }
 }
 
+void Level::FullClear() {
+    for(int i = 0; i < GetYSize(); i++) {
+        for(int j = 0; j < GetXSize(); j++) {
+            GetType(j, i) = FREE;
+            UnExplored(j,i);
+        }
+    }
+}
+
 bool Level::IsWalkable(int x, int y) {
     cellT type = GetType(x, y);
     if( type == FREE || type == BONUS || type == EXIT || type == HERO ) {
