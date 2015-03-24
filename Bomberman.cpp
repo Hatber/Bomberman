@@ -34,7 +34,7 @@ void Bomberman::Start() {
             _gui.DrawEndWindow();
             TCOD_key_t key;
             do {
-                key = TCODConsole::waitForKeypress(true);
+                key = TCODConsole::waitForKeypress(false);
             } while (key.vk != TCODK_ESCAPE);
             return;
         }
@@ -45,7 +45,8 @@ void Bomberman::Start() {
 
 bool Bomberman::WaitUserInput() {
     TCOD_key_t key;
-    key = TCODConsole::waitForKeypress(true);
+    key = TCODConsole::checkForKeypress();
+    //TCODConsole::waitForKeypress(false);
 
     switch(_currentState) {
         case GAME       : return HandleGameAction(key); break;

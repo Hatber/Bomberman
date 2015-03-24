@@ -32,7 +32,7 @@ private:
 class BombFactory {
 public:
     static Bomb MakeDefaultBomb() {
-        Bomb defaultBomb(4, 3);
+        Bomb defaultBomb(5, 3);
         defaultBomb.AddDirection(UP);
         defaultBomb.AddDirection(RIGHT);
         defaultBomb.AddDirection(LEFT);

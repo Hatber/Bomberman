@@ -22,7 +22,7 @@ public:
     }
 
     bool isDead() { return _current <= 0; }
-
+    void Heal() { _current = _max; }
 private:
     T _max;
     T _current;

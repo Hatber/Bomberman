@@ -52,7 +52,7 @@ bool GameEngine::PlaceBomb() {
 
 bool GameEngine::DoAction() {
     if(MCoordinates(_hero) == MCoordinates(_exit)) {
-        _difficulty+=2;
+        _difficulty++;
         Generate();
     }
     return true;
@@ -112,10 +112,11 @@ void GameEngine::Step(TCODMapWrapper& pathMap) {
 
                 explosionComplete = false;
 
-                if(_bombs[i].ContainDirection(UP))    { ExplosionTransmission(_bombs[i], UP, _bombs[i].GetPower()); }
-                if(_bombs[i].ContainDirection(DOWN))  { ExplosionTransmission(_bombs[i], DOWN, _bombs[i].GetPower()); }
-                if(_bombs[i].ContainDirection(RIGHT)) { ExplosionTransmission(_bombs[i], RIGHT, _bombs[i].GetPower()); }
-                if(_bombs[i].ContainDirection(LEFT))  { ExplosionTransmission(_bombs[i], LEFT, _bombs[i].GetPower()); }
+                if(_bombs[i].ContainDirection(UP))     { ExplosionTransmission(_bombs[i], UP, _bombs[i].GetPower()); }
+                if(_bombs[i].ContainDirection(DOWN))   { ExplosionTransmission(_bombs[i], DOWN, _bombs[i].GetPower()); }
+                if(_bombs[i].ContainDirection(RIGHT))  { ExplosionTransmission(_bombs[i], RIGHT, _bombs[i].GetPower()); }
+                if(_bombs[i].ContainDirection(LEFT))   { ExplosionTransmission(_bombs[i], LEFT, _bombs[i].GetPower()); }
+                if(_bombs[i].ContainDirection(CENTER)) { ExplosionTransmission(_bombs[i], CENTER, _bombs[i].GetPower()); }
 
                 _bombs.erase(_bombs.begin() + i);
             }
@@ -137,6 +138,7 @@ void GameEngine::Generate() {
     _level.FullClear();
 
     _hero.SetCoordinate(0, 0);
+    _hero.Heal();
 
     TCODRandom * rnd = TCODRandom::getInstance();
     rnd->setDistribution(TCOD_DISTRIBUTION_LINEAR);
@@ -153,6 +155,7 @@ void GameEngine::Generate() {
             }
         }
     }
+    UpdateLevel();
 
     for(int i = 0; i < _difficulty;) {
         int xCoord = rnd->getInt(10, levelXSize - 1);
@@ -160,7 +163,7 @@ void GameEngine::Generate() {
 
         if(_level.IsWalkable(xCoord, yCoord)) {
             MonsterT typeM = NORMAL;
-            switch(rnd->getInt(0, 2)) {
+            switch(rnd->getInt(0, 3)) {
                 case 0: typeM = NORMAL; break;
                 case 1: typeM = FAST;   break;
                 case 2: typeM = SLOW;   break;
@@ -174,8 +177,17 @@ void GameEngine::Generate() {
             i++;
         }
     }
+    UpdateLevel();
 
-    _exit.SetCoordinate(rnd->getInt(10, levelXSize - 1), rnd->getInt(10, levelYSize - 1));
+
+    int xFreeCoord;
+    int yFreeCoord;
+    do {
+        xFreeCoord = rnd->getInt(10, levelXSize - 1);
+        yFreeCoord = rnd->getInt(10, levelYSize - 1);
+    } while(!_level.IsWalkable(xFreeCoord, yFreeCoord));
+
+    _exit.SetCoordinate(xFreeCoord, yFreeCoord);
 
     UpdateLevel();
 }
@@ -187,43 +199,48 @@ void GameEngine::ExplosionTransmission(MCoordinates current, DirectionT diretion
     //Проверяем на столкновение
     MCoordinates offsetCoordinate;
     switch(diretion) {
-        case UP    : offsetCoordinate = current + MCoordinates(0, -1); break;
-        case DOWN  : offsetCoordinate = current + MCoordinates(0, 1); break;
-        case LEFT  : offsetCoordinate = current + MCoordinates(-1, 0); break;
-        case RIGHT : offsetCoordinate = current + MCoordinates(1, 0); break;
+        case UP     : offsetCoordinate = current + MCoordinates(0, -1); break;
+        case DOWN   : offsetCoordinate = current + MCoordinates(0, 1); break;
+        case LEFT   : offsetCoordinate = current + MCoordinates(-1, 0); break;
+        case RIGHT  : offsetCoordinate = current + MCoordinates(1, 0); break;
+        case CENTER : offsetCoordinate = current + MCoordinates(0, 0); break;
     }
 
     bool explosionInLevel = offsetCoordinate.InBorders(MCoordinates(0, 0), MCoordinates(levelXSize, levelYSize));
-    if(explosionInLevel && _level.IsWalkable(offsetCoordinate.first, offsetCoordinate.second) && _level.GetType(offsetCoordinate.first, offsetCoordinate.second)!=HERO) {
-        if(_level.GetType(offsetCoordinate.first, offsetCoordinate.second) == BOMB) {
-            for(std::size_t i = 0; i < _bombs.size(); i++) {
-                if(MCoordinates(_bombs[i]) == offsetCoordinate) {
-                    _bombs[i].Reset();
-                }
-            }
-        }
 
+    //BOMB COLLIDE
+    for(std::size_t i = 0; i < _bombs.size(); i++) {
+        if(MCoordinates(_bombs[i]) == offsetCoordinate) {
+            _bombs[i].Reset();
+        }
+    }
+
+    //HERO COLLIDE
+    if(MCoordinates(_hero) == offsetCoordinate) {
+        _hero.ReduceHP(power);
+    }
+
+    //MONSTERS COLLIDE
+    for(std::size_t i = 0; i < _monsters.size(); i++) {
+        if(MCoordinates(_monsters[i]) == offsetCoordinate) {
+            _monsters[i].ReduceHP(power);
+        }
+    }
+
+    //WALLS COLLIDE
+    for(std::size_t i = 0; i < _walls.size(); i++) {
+        if(MCoordinates(_walls[i]) == offsetCoordinate) {
+            _walls[i].ReduceHP(power);
+        }
+    }
+
+    if( (!_level.IsWalkable(current.first, current.second) || _level.GetType(current.first, current.second)==HERO)
+        && _level.GetType(current.first, current.second)!=BOMB) {
+        power--;
+    }
+
+    if(explosionInLevel) {
         ExplosionTransmission(offsetCoordinate, diretion, power - 1);
-        return;
-    } else {
-        //HERO COLLIDE
-        if(MCoordinates(_hero) == offsetCoordinate) {
-            _hero.ReduceHP(power);
-        }
-
-        //MONSTERS COLLIDE
-        for(std::size_t i = 0; i < _monsters.size(); i++) {
-            if(MCoordinates(_monsters[i]) == current) {
-                _monsters[i].ReduceHP(power);
-            }
-        }
-
-        //WALLS COLLIDE
-        for(std::size_t i = 0; i < _walls.size(); i++) {
-            if(MCoordinates(_walls[i]) == offsetCoordinate) {
-                _walls[i].ReduceHP(power);
-            }
-        }
     }
 
     return;
