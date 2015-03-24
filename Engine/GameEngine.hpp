@@ -37,9 +37,9 @@ public:
     Bomb _currentBombBuild;
 
     std::set< MCoordinates > explosionCover;
+    int _difficulty;
 
 private:
-    int _difficulty;
     void Generate();
 
 

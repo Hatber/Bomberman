@@ -1,6 +1,8 @@
 #include "GuiEngine.hpp"
 #include "../Common.hpp"
 
+#include "../Util/Format.hpp"
+
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -45,7 +47,7 @@ void GuiEngine::Init(int levelXSize, int levelYSize) {
 
 void GuiEngine::DrawInfo(const MHitPoints< float >& currentHP, int score) {
     std::string panel = "HP : [%c%c%c%c";
-    int hpPanelSize = 45;
+    int hpPanelSize = 34;
 
     int hpPercent = currentHP.GetAsPercent()*hpPanelSize/100;
 
@@ -54,6 +56,9 @@ void GuiEngine::DrawInfo(const MHitPoints< float >& currentHP, int score) {
     for(int i = 0; i < hpPercent; i++) { panel += "+"; }
     for(int i = hpPercent; i < hpPanelSize; i++) { panel += " "; }
     panel += "%c]";
+
+    panel += " Level : " + std::string(Format() << score);
+
 
     TCODConsole::root->print(0, 0, panel.c_str(), TCOD_COLCTRL_FORE_RGB, 255, 1, 1, TCOD_COLCTRL_STOP);
     TCODConsole::root->flush();

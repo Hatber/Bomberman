@@ -34,7 +34,7 @@ bool GameEngine::MoveHero(int xOffset, int yOffset) {
 
 bool GameEngine::PlaceBomb() {
     if(MCoordinates(_hero) == MCoordinates(_exit)) {
-        _difficulty+=2;
+        _difficulty++;
         Generate();
         return false;
     }
