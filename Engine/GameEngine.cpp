@@ -125,10 +125,19 @@ void GameEngine::Step(TCODMapWrapper& pathMap) {
 }
 
 void GameEngine::PutToDeath() {
+    int monsterScore = _monsters.size();
+    int wallScore    = _walls.size();
+
     _monsters.erase(std::remove_if(_monsters.begin(), _monsters.end(), Creation::Dead),
               _monsters.end());
     _walls.erase(std::remove_if(_walls.begin(), _walls.end(), Creation::Dead),
               _walls.end());
+
+    monsterScore -=_monsters.size();
+    wallScore    -= _walls.size();
+
+    _score += monsterScore*20;
+    _score += wallScore;
 }
 
 void GameEngine::Generate() {

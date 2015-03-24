@@ -30,6 +30,8 @@ public:
     void Step(TCODMapWrapper& pathMap);
     void PutToDeath();
 
+    int getScore() { return (_difficulty - 1)*100 + _score; }
+
     std::set< int > _findedTimers;
     std::set< int > _findedPowers;
     std::set< DirectionT > _findedDirections;
@@ -37,11 +39,10 @@ public:
     Bomb _currentBombBuild;
 
     std::set< MCoordinates > explosionCover;
-    int _difficulty;
 
 private:
     void Generate();
-
+    int _difficulty;
 
     void ExplosionTransmission(MCoordinates current, DirectionT diretion, int power);
 

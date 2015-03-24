@@ -18,7 +18,7 @@ void Bomberman::Start() {
 
         UpdateTCODMap();
 
-        _gui.DrawInfo(_engine.GetHeroHP(), _engine._difficulty);
+        _gui.DrawInfo(_engine.GetHeroHP(), _engine.getScore());
         _gui.DrawGame(_engine.GetLevel(), _map);
         //_gui.DrawStatPanel();
 
