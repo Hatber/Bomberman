@@ -5,7 +5,7 @@
 #include "../Util/TCODMapWrapper.hpp"
 #include "../Engine/Mixins/MHitPoints.hpp"
 
-#include "../Engine/GameEngine.hpp"
+#include "../Engine/Bomb.hpp"
 
 #include "libtcod.hpp"
 
@@ -19,7 +19,7 @@ public:
 
     void DrawInfo(const MHitPoints< float >& currentHP, int score);
     void DrawGame(Level& level, TCODMapWrapper& fovMap);
-    void DrawStatPanel(GameEngine& engine);
+    void DrawStatPanel(Bomb& bombBuild);
 
     void DrawExplosion(std::set< MCoordinates >& cover);
 

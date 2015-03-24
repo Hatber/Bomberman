@@ -20,7 +20,7 @@ void Bomberman::Start() {
 
         _gui.DrawInfo(_engine.GetHeroHP(), _engine.getScore());
         _gui.DrawGame(_engine.GetLevel(), _map);
-        //_gui.DrawStatPanel();
+        _gui.DrawStatPanel(_engine._currentBombBuild);
 
         if(!WaitUserInput()) { continue; }
 

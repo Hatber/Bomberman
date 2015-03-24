@@ -198,6 +198,8 @@ void GameEngine::Generate() {
 
     _exit.SetCoordinate(xFreeCoord, yFreeCoord);
 
+    BombFactory::Modify(_currentBombBuild);
+
     UpdateLevel();
 }
 

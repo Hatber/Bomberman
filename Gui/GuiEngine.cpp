@@ -23,11 +23,11 @@ const TCODColor groundColor(130,110,50);
 const TCODColor wallColor(200,180,50);
 
 const int HPPanelHeight = 1;
-const int BombConfigurationPanelHeight = 10;
+const int BombConfigurationPanelHeight = 7;
 
 GuiEngine::GuiEngine() {
-    //TCODConsole::initRoot(50 + 2, 25+11+4, "Bomberman", false);
-    TCODConsole::initRoot(50 + 2, 25+3, "Bomberman", false);
+    TCODConsole::initRoot(50 + 2, 25+BombConfigurationPanelHeight+5, "Bomberman", false);
+    //TCODConsole::initRoot(50 + 2, 25+3, "Bomberman", false);
 }
 
 void GuiEngine::Init(int levelXSize, int levelYSize) {
@@ -160,18 +160,37 @@ void GuiEngine::DrawLog() {
     TCODConsole::root->flush();
 }
 
-void GuiEngine::DrawStatPanel(GameEngine& engine) {
-    std::string TimerStr = "Timer  : ";
+void GuiEngine::DrawStatPanel(Bomb& bombBuild) {
+    std::string TimerStr = "Timer :";
     for(int i = 1; i<10; i++) {
-        if(engine._findedTimers.find(i) != engine._findedTimers.end()) {
-            //if(i == engine._currentBombBuild)
+        if(bombBuild.GetTimer()!=i) {
+            TimerStr += " " + std::string(Format() << i) + " ";
+        } else {
+            TimerStr += " %c%c%c " + std::string(Format() << i) + "%c ";
         }
     }
 
-    _statWindow->print(3, 2, "Timer  : 1 2 3 4 5 6 7 8 9");
-    _statWindow->print(3, 3, "Power  : 1 2 3 4 5 6 7 8 9");
-    _statWindow->print(3, 5, "Direct : [Up] [Right] [Down] [Left] [Center]");
-    _statWindow->print(3, 7, "Build  : A B C D E F G H I J");
+    std::string PowerStr = "Power :";
+    for(int i = 1; i<10; i++) {
+        if(bombBuild.GetPower()!=i) {
+            PowerStr += " " + std::string(Format() << i) + " ";
+        } else {
+            PowerStr += " %c%c%c " + std::string(Format() << i) + "%c ";
+        }
+    }
+
+    std::string DirectStr = "Direct :";
+    if(bombBuild.ContainDirection(UP))     { DirectStr += " [UP] "; } else { DirectStr += " [  ] "; }
+    if(bombBuild.ContainDirection(DOWN))   { DirectStr += " [DOWN] "; } else { DirectStr += " [    ] "; }
+    if(bombBuild.ContainDirection(RIGHT))  { DirectStr += " [RIGHT] "; } else { DirectStr += " [     ] "; }
+    if(bombBuild.ContainDirection(LEFT))   { DirectStr += " [LEFT] "; } else { DirectStr += " [    ] "; }
+    if(bombBuild.ContainDirection(CENTER)) { DirectStr += " [CENTER] "; } else { DirectStr += " [      ] "; }
+
+
+    _statWindow->print(1, 1, TimerStr.c_str(),  TCOD_COLCTRL_FORE_RGB, 255, 1, 1, TCOD_COLCTRL_STOP);
+    _statWindow->print(1, 3, PowerStr.c_str(),  TCOD_COLCTRL_FORE_RGB, 255, 1, 1, TCOD_COLCTRL_STOP);
+    _statWindow->print(1, 5, DirectStr.c_str());
+    //_statWindow->print(3, 7, "Build  : A B C D E F G H I J");
 
     TCODConsole::blit(_statWindow, 0, 0, levelXSize, BombConfigurationPanelHeight, TCODConsole::root, 1, levelYSize + 4);
     TCODConsole::root->flush();
