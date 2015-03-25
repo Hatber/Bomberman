@@ -27,6 +27,9 @@ public:
     bool IsWalkable(int x, int y);
     bool IsTransparent(int x, int y);
 
+    bool IsClean();
+    bool IsMonster(int x, int y);
+
 
     void SetBonus(const MCoordinates& coord) { SetType(coord, BONUS); }
     void SetExit(const MCoordinates& coord)  { SetType(coord, EXIT); }

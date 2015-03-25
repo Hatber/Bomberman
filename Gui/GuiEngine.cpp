@@ -108,6 +108,10 @@ void GuiEngine::DrawGame(Level& level, TCODMapWrapper& fovMap) {
                 foreGroundColor = TCODColor::blue;
             }
 
+            if(level.IsClean() && level.GetType(x, y) == EXIT) {
+                foreGroundColor = TCODColor::yellow;
+            }
+
             _gameWindow->setDefaultBackground(backGroundColor);
             _gameWindow->setDefaultForeground(foreGroundColor);
 

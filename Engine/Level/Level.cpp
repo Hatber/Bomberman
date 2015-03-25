@@ -34,3 +34,23 @@ bool Level::IsTransparent(int x, int y) {
 
     return true;
 }
+
+bool Level::IsClean() {
+    for(int i = 0; i < GetYSize(); i++) {
+        for(int j = 0; j < GetXSize(); j++) {
+            if(IsMonster(j, i)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Level::IsMonster(int x, int y) {
+    cellT type = GetType(x, y);
+    if(type == MONSTER_N  || type == MONSTER_F || type == MONSTER_S) {
+        return true;
+    }
+    return false;
+}
