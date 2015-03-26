@@ -57,8 +57,10 @@ void GuiEngine::DrawInfo(const MHitPoints< float >& currentHP, int score) {
     for(int i = hpPercent; i < hpPanelSize; i++) { panel += " "; }
     panel += "%c]";
 
-    panel += " Score : " + std::string(Format() << score);
+    std::string percentStr = " " +  std::string(Format() << currentHP.GetAsPercent()) + "%% ";
+    panel.replace(6 + 8 + hpPanelSize/2 - 3, percentStr.size(), percentStr);
 
+    panel += " Score : " + std::string(Format() << score);
 
     TCODConsole::root->print(0, 0, panel.c_str(), TCOD_COLCTRL_FORE_RGB, 255, 1, 1, TCOD_COLCTRL_STOP);
     TCODConsole::root->flush();

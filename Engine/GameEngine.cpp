@@ -16,6 +16,7 @@ GameEngine::GameEngine() :
     _hero.SetCurrentHP(defaultMaxHP);
 
     _difficulty = 1;
+    _score = 0;
 
     Generate();
 }
