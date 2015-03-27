@@ -142,6 +142,7 @@ void GameEngine::PutToDeath() {
 }
 
 void GameEngine::Generate() {
+    _bombs.clear();
     _walls.clear();
     _monsters.clear();
     _bonuses.clear();

@@ -158,6 +158,9 @@ void GuiEngine::DrawLog() {
 }
 
 void GuiEngine::DrawStatPanel(Bomb& bombBuild) {
+    _border.DrawPassiveBorder(levelXSize - 13, levelXSize+1, -1, 3, _statWindow);
+    _statWindow->print(levelXSize - 12, 0, "Press 'h' to\n       help");
+
     std::string TimerStr = "Timer :";
     for(int i = 1; i<10; i++) {
         if(bombBuild.GetTimer()!=i) {

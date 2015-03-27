@@ -9,8 +9,8 @@ public:
 
     int GetAsPercent() const { return (_current/_max)*100.0; }
 
-    T GetCurrentHP() { return _current; }
-    T GetMaxHP() { return _max; }
+    //T GetCurrentHP() { return _current; }
+    //T GetMaxHP() { return _max; }
 
     void SetMaxHP(T current) { _current = current; }
     void SetCurrentHP(T max) { _max = max; }
