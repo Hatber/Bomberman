@@ -7,15 +7,6 @@
 using std::cout;
 using std::endl;
 
-const int rightUpCorner   = 0XBB;
-const int leftUpCorner    = 0XC9;
-const int rightDownCorner = 0XBC;
-const int leftDownCorner  = 0XC8;
-const int horizontalLine  = 0XCD;
-const int verticalLine    = 0XBA;
-
-const TCODColor activeBorderColor(200,160,30);
-
 const TCODColor darkGroundColor(50,50,150);
 const TCODColor darkWallColor(0,0,100);
 
@@ -41,8 +32,8 @@ void GuiEngine::Init(int levelXSize, int levelYSize) {
 
     //DrawLog();
     //DrawInfo(MHitPoints<float>(defaultMaxHP), 0);
-    DrawActiveBorder(0, levelXSize + 2, HPPanelHeight, levelYSize+3);
-    DrawPassiveBorder(0, levelXSize + 2, levelYSize+3, levelYSize + BombConfigurationPanelHeight + HPPanelHeight+4);
+    _border.DrawActiveBorder(0, levelXSize + 2, HPPanelHeight, levelYSize+3, TCODConsole::root);
+    _border.DrawPassiveBorder(0, levelXSize + 2, levelYSize+3, levelYSize + BombConfigurationPanelHeight + HPPanelHeight+4, TCODConsole::root);
 }
 
 void GuiEngine::DrawInfo(const MHitPoints< float >& currentHP, int score) {
@@ -139,7 +130,7 @@ void GuiEngine::DrawExplosion(std::set< MCoordinates >& cover) {
 }
 
 void GuiEngine::DrawEndWindow() {
-    DrawPassiveBorder(9, levelXSize - 9, 9, levelYSize - 9);
+    _border.DrawPassiveBorder(9, levelXSize - 9, 9, levelYSize - 9, TCODConsole::root);
 
     _endWindow->setDefaultForeground(TCODColor::red);
     _endWindow->setDefaultBackground(TCODColor::black);
@@ -205,41 +196,4 @@ void GuiEngine::DrawStatPanel(Bomb& bombBuild) {
 void GuiEngine::DrawTip(const std::string& text) { }
 
 void GuiEngine::DrawExit() { }
-
-void GuiEngine::DrawActiveBorder (int startX, int endX, int startY, int endY) {
-    TCODConsole::root->setDefaultBackground(activeBorderColor);
-
-    for(int i = startX; i < endX; i++) {
-        TCODConsole::root->putChar(i, startY, ' ', TCOD_BKGND_SET);
-        TCODConsole::root->putChar(i, endY - 1,   ' ', TCOD_BKGND_SET);
-    }
-
-    for(int i = startY; i < endY; i++) {
-        TCODConsole::root->putChar(startX, i, ' ', TCOD_BKGND_SET);
-        TCODConsole::root->putChar(endX - 1,   i, ' ', TCOD_BKGND_SET);
-    }
-
-    TCODConsole::root->flush();
-}
-
-void GuiEngine::DrawPassiveBorder(int startX, int endX, int startY, int endY) {
-    TCODConsole::root->setDefaultBackground(TCODColor::black);
-
-    TCODConsole::root->putChar(startX,   startY,   leftUpCorner);
-    TCODConsole::root->putChar(endX - 1, startY,   rightUpCorner);
-    TCODConsole::root->putChar(startX,   endY - 1, leftDownCorner);
-    TCODConsole::root->putChar(endX - 1, endY - 1, rightDownCorner);
-
-    for(int i = startX + 1; i < endX - 1; i++) {
-        TCODConsole::root->putChar(i, startY,   horizontalLine, TCOD_BKGND_SET);
-        TCODConsole::root->putChar(i, endY - 1, horizontalLine, TCOD_BKGND_SET);
-    }
-
-    for(int i = startY + 1; i < endY - 1; i++) {
-        TCODConsole::root->putChar(startX,   i, verticalLine, TCOD_BKGND_SET);
-        TCODConsole::root->putChar(endX - 1, i, verticalLine, TCOD_BKGND_SET);
-    }
-
-    TCODConsole::root->flush();
-}
 

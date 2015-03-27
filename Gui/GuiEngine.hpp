@@ -6,6 +6,7 @@
 #include "../Engine/Mixins/MHitPoints.hpp"
 
 #include "../Engine/Bomb.hpp"
+#include "BorderDrafter.hpp"
 
 #include "libtcod.hpp"
 
@@ -34,12 +35,11 @@ private:
     TCODConsole* _exitWindow;
     TCODConsole* _tipWindow;
 
+    rll::BorderDrafter _border;
+
     void DrawLog();
     void DrawTip(const std::string& text); //?
     void DrawExit(); //NOPE
-
-    void DrawActiveBorder (int startX, int endX, int startY, int endY);
-    void DrawPassiveBorder(int startX, int endX, int startY, int endY);
 };
 
 #endif // __GUI_ENGINE__
